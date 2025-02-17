@@ -1,4 +1,4 @@
-# Stock Control Backend
+# Stock Control Backend 🚀
 
 Este é um backend simples para controle de estoque, desenvolvido em TypeScript utilizando Express, Prisma para ORM com PostgreSQL e containerizado com Docker & Docker Compose.
 
