@@ -1,0 +1,122 @@
+# Stock Control Backend
+
+Este é um backend simples para controle de estoque, desenvolvido em TypeScript utilizando Express, Prisma para ORM com PostgreSQL e containerizado com Docker & Docker Compose.
+
+## Funcionalidades
+
+- **CRUD** para itens do estoque:
+  - **Criar** item
+  - **Listar** todos os itens
+  - **Buscar** um item por ID
+  - **Atualizar** item por ID
+  - **Deletar** item por ID
+- **Health Check:** Endpoint `/health` para verificar se a API está funcionando
+
+## Tecnologias Utilizadas
+
+- [Node.js](https://nodejs.org/)
+- [Express](https://expressjs.com/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Prisma ORM](https://www.prisma.io/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Docker & Docker Compose](https://www.docker.com/)
+
+## Pré-requisitos
+
+- [Docker](https://www.docker.com/) e [Docker Compose](https://docs.docker.com/compose/) instalados.
+- (Opcional) [Git](https://git-scm.com/) para clonar o repositório.
+
+## Estrutura do Projeto
+
+stock-control-backend/ ├── prisma/ │ └── schema.prisma # Modelo do banco de dados e configuração do Prisma ├── src/ │ ├── routes/ │ │ └── itemRoutes.ts # Endpoints para CRUD dos itens │ ├── prisma.ts # Instância do Prisma Client │ └── index.ts # Configuração do servidor Express e definição das rotas ├── .env # Variáveis de ambiente (DATABASE_URL) ├── Dockerfile # Dockerfile para o backend ├── docker-compose.yaml # Orquestração dos containers (app e db) ├── package.json # Dependências e scripts do Node.js ├── tsconfig.json # Configuração do TypeScript └── README.md # Este arquivo
+
+bash
+Copiar
+
+## Instruções de Instalação e Execução
+
+### 1. Clone o Repositório
+
+No terminal, execute:
+
+```bash
+git clone <URL_DO_REPOSITÓRIO>
+cd stock-control-backend
+2. Configure as Variáveis de Ambiente
+Verifique o arquivo .env. Ele já deve conter a seguinte configuração padrão:
+
+dotenv
+Copiar
+DATABASE_URL="postgresql://postgres:postgres@db:5432/stock_db?schema=public"
+3. Construção e Inicialização dos Containers
+Utilize o Docker Compose para construir e iniciar os containers:
+
+(Opcional) Remova volumes antigos para limpar o banco de dados:
+
+bash
+Copiar
+docker-compose down -v
+Construa e inicie os containers:
+
+bash
+Copiar
+docker-compose up --build
+O serviço db iniciará o PostgreSQL.
+O serviço app construirá e executará a aplicação Node.js na porta 3000.
+4. Aplicando as Migrações do Prisma
+Após os containers estarem em execução, abra um shell dentro do container do backend:
+
+bash
+Copiar
+docker-compose exec app sh
+Dentro do container, execute:
+
+bash
+Copiar
+npx prisma migrate dev --name init
+Esse comando criará as tabelas necessárias no banco de dados (por exemplo, a tabela Item) e gerará o Prisma Client com os binários adequados.
+
+5. Testando a API
+Health Check:
+Acesse no navegador ou via cURL/Postman:
+
+bash
+Copiar
+http://localhost:3000/health
+Você deverá ver a mensagem:
+
+nginx
+Copiar
+API está funcionando
+Endpoints CRUD:
+Utilize o Thunder Client (extensão do VS Code), Postman ou cURL para testar os endpoints:
+
+Criar Item (POST /items):
+
+bash
+Copiar
+curl -X POST http://localhost:3000/items \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Produto A", "quantity": 10}'
+Listar Itens (GET /items):
+
+bash
+Copiar
+curl http://localhost:3000/items
+Buscar Item por ID (GET /items/1):
+
+bash
+Copiar
+curl http://localhost:3000/items/1
+Atualizar Item (PUT /items/1):
+
+bash
+Copiar
+curl -X PUT http://localhost:3000/items/1 \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Produto Atualizado", "quantity": 20}'
+Deletar Item (DELETE /items/1):
+
+bash
+Copiar
+curl -X DELETE http://localhost:3000/items/1
