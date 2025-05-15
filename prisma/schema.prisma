@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://postgres:postegres123@rds-prova.c0mygcflmcwd.us-east-1.rds.amazonaws.com:5432/aws_db?client_encoding=utf8"
 }
 
 generator client {
