@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Expor a porta da aplicação
-EXPOSE 3000
+EXPOSE 3001
 
 # Comando para iniciar a aplicação
 CMD ["node", "dist/index.js"]
